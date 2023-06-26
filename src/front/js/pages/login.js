@@ -12,7 +12,7 @@ export const Login = () => {
     const handleChange = (event) =>{
         setData({...data, [event.target.name]: event.target.value});
     }
-  
+    //console.log(data)
     const handleSubmit = (event) => {
         event.preventDefault();
         const config = {
@@ -22,27 +22,32 @@ export const Login = () => {
                 'Content-Type': 'application/json'
             }
         }
- 
+        //console.log(data)
 		fetch(process.env.BACKEND_URL + "/api/login", config)
 			.then((response) => response.json())
 			.catch(error => console.log('error', error))
 			.then(response => {
-              
+                //console.log(response)
+				// response.token?
+                //     actions.loadToken(response)
+                // :
+                // console.log(response)
                 if (response.message == "Email and password are required") {
-                    
+                    //console.log("Email and password are required")
                     setAlertMessage(
                         <div className="alert alert-warning" role="alert">
                             Email and password are required
                         </div>)
                     
                 }if (response.message == "Email and password incorrect") {
-                   
+                    //console.log("Email and password incorrect")
                     setAlertMessage(
                         <div className="alert alert-warning" role="alert">
                             Email and password incorrect
                         </div>)
                 }if (response.user_id) {
-                    
+                    //console.log(response.message)
+                    //actions.loadToken(response.message);
                     localStorage.setItem('token', response.message);
                     console.log(localStorage.getItem('token'))
                     navigate("/private");
@@ -64,7 +69,10 @@ export const Login = () => {
                 <input type="password" name="password" className="form-control" id="exampleInputPassword1"
                 onChange={(e) => handleChange(e)}/>
             </div>
-           
+            {/* <div className="mb-3 form-check">
+                <input type="checkbox" className="form-check-input" id="exampleCheck1"/>
+                <label className="form-check-label" for="exampleCheck1">Check me out</label>
+            </div> */}
             {alertMessage}
             <button type="submit" className="btn btn-primary">Submit</button>
         </form>
